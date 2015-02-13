@@ -1,0 +1,7 @@
+{
+    "name": "Dauro/File",
+    "description": "File Utilites for PHP",
+    "keywords" : ["Dauro", "Utils", "File"],
+    "license" : ["MIT"],
+    "require": {}
+}

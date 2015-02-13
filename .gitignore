@@ -1,0 +1,7 @@
+# Ignore IDE project folders
+.idea/
+nbproject/
+
+# Ignore composer generated files
+vendor/
+composer.lock
