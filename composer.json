@@ -1,6 +1,10 @@
 {
     "name": "dauro/utils-file",
     "description": "File Utilites for PHP",
+    "authors":    {
+        "name":     "Gotardo González",
+        "email":    "contact@gotardo.es"
+    },
     "keywords" : ["Dauro", "Utils", "File"],
     "license" : ["MIT"],
     "require": {}
