@@ -1,0 +1,18 @@
+<phpunit
+    bootstrap="bootstrap.php"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    checkForUnintentionallyCoveredCode="true"
+>
+    <testsuites>
+        <testsuite name="utils-file">
+            <directory suffix=".php">Dauro/Utils/File</directory>
+        </testsuite>
+        <testsuite name="utils-csv">
+            <directory suffix=".php">Dauro/Utils/Csv</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
