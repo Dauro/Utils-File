@@ -11,12 +11,7 @@ before_script:
   - composer install --prefer-source --no-interaction
 
 script:
-    - phpunit -c app --coverage-clover=reports/coverage.clover
-
-after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover reports/coverage.clover
-  -  ./vendor/phpmd/phpmd/src/bin/phpmd src/ text  cleancode,codesize,controversial,design, naming, unusedcode
+    - phpunit -c tests --coverage-clover=reports/coverage.clover
 
 notifications:
     email:
