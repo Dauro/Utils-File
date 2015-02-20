@@ -45,6 +45,11 @@ class Handler {
     protected $_mime;
 
     /**
+     *  @var string The extension of the file
+     */
+    protected $_pathinfo;
+
+    /**
      *  @cons bool Use include path when trying to open a file
      */
     const USE_INCLUDE_PATH = true;
@@ -63,6 +68,20 @@ class Handler {
 
         $this->_path = $path;
         $this->_mode = $mode;
+    }
+
+    /**
+     * Creates a new file
+     *
+     * @param type $path
+     * @param type $mode
+     * @return \static
+     */
+    public static function create($path, $mode = 'w'){
+        if(file_exists($path))
+            throw new Exception($path, 'Can not create file. File already exists');
+        
+        return new static($path, $mode);
     }
 
     /**
@@ -96,6 +115,82 @@ class Handler {
             return true;
         else
             throw new Exception($this->_path, 'Could not close the file');
+    }
+
+    /**
+     * Deletes the file
+     * @return true in case of success
+     * @throws Exception When there is an error on closing the file.
+     */
+    public function delete() {
+        return unlink($this->_path);
+    }
+
+    /**
+     * Duplicate a file
+     * @return File The new file
+     * @throws Exception
+     */
+    protected function duplicate($target = NULL){
+        $origin = $this->getPath();
+        $target || $target = $this->getDi();
+        if (copy($origin, $target))
+            return new static($target);
+        else
+            return false;
+    }
+
+    /**
+     * Get the name of the directory where the file is located
+     * @return string the dir name
+     */
+    public static function getDirName(){
+        return dirname($this->_path);
+    }
+
+    /**
+     * Rename a file
+     * @param string $newName The name of the file
+     * @return bool true on success, false on failure
+     */
+    public function rename($newName){
+        return rename($this->_path, dirname($this->_path) . '/' . $newname);
+    }
+
+    /**
+     * Get the path of the file
+     * @return String the Path
+     */
+    public function getPath(){
+        return $this->_path;
+    }
+
+    /**
+     * Get the extension of the file
+     * @return string The file extension
+     * @throws Gapp\Utils\File\Exception if the file info resource could not be stablished.
+     */
+    public function getExtension(){
+        $this->_pathinfo || $this->_pathinfo = pathinfo($this->_path, PATHINFO_EXTENSION);
+        return $this->_pathinfo['extension'];
+    }
+
+    /**
+     * Get basename
+     * @return string The name of the file (without extension)
+     * @throws Gapp\Utils\File\Exception if the file info resource could not be stablished.
+     */
+    public function getBaseName(){
+        return basename($this->getPath(), $this->getExtension());
+    }
+
+    /**
+     * Get file name
+     * @return string The name of the file.
+     * @throws Gapp\Utils\File\Exception if the file info resource could not be stablished.
+     */
+    public function getFileName(){
+        return basename($this->getPath());
     }
 
     /**
@@ -189,7 +284,7 @@ class Handler {
      * @return bool true in case of success.
      */
     public function write($content){
-        $this->_resource || $this->open ();
+        $this->_resource || $this->open();
         return fwrite($this->_resource, $content);
     }
 
@@ -200,7 +295,7 @@ class Handler {
      * @return bool true in case of success.
      */
     public function writeLine($content){
-        $this->_resource || $this->open ();
+        $this->_resource || $this->open();
         return fwrite($this->_resource, $content . PHP_EOL);
     }
 

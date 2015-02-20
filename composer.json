@@ -9,5 +9,7 @@
     ],
     "keywords" : ["Dauro", "Utils", "File"],
     "license" : ["MIT"],
-    "require": {}
+    "require": {
+        "fzaninotto/Faker": "*"
+    }
 }

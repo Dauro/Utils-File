@@ -1,6 +1,5 @@
 <?php
 
-echo "Bootstrapping...";
 ini_set("auto_detect_line_endings", "1");
 
 spl_autoload_register(function ($class){
@@ -14,4 +13,4 @@ spl_autoload_register(function ($class){
     return false;
 });
 
-//include '../vendor/autoload.php';
+include './vendor/autoload.php';

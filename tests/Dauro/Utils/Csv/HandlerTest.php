@@ -7,7 +7,7 @@ namespace Gapp\Utils\Csv;
  */
 class HandlerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFoo(){
+    public function testFoo() {
         $this->assertTrue(FALSE);
     }
 
