@@ -16,3 +16,8 @@ script:
 notifications:
     email:
         - ci@gotardo.es
+
+branches:
+  only:
+    - master
+    - dev
