@@ -20,6 +20,6 @@ class NotFoundException extends Exception
      * @param type $previous
      */
     public function __construct($path, $previous = null) {
-        parent::__construct($path, 'File not found', 999001001, $previous);
+        parent::__construct($path, 'File ' . $path . ' not found', 999001001, $previous);
     }
 }

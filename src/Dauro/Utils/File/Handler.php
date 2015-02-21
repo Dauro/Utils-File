@@ -58,7 +58,7 @@ class Handler {
      *
      * @param string $path The path of the file
      * @param string $mode The open mode (as defined in fopen)
-     * @throws FileNotFoundException in case that $path is not a valid file.
+     * @throws FileNotFoundException in case that $path is not a valid file and you are opening for reading.
      */
     public function __construct($path, $mode = 'rb'){
         if (
@@ -80,7 +80,7 @@ class Handler {
     public static function create($path, $mode = 'w'){
         if(file_exists($path))
             throw new Exception($path, 'Can not create file. File already exists');
-        
+
         return new static($path, $mode);
     }
 
@@ -119,11 +119,14 @@ class Handler {
 
     /**
      * Deletes the file
-     * @return true in case of success
+     * @return true in case of success, false if the file did not exist.
      * @throws Exception When there is an error on closing the file.
      */
     public function delete() {
-        return unlink($this->_path);
+        if (!file_exists($this->_path))
+            return false;
+        else
+            unlink($this->_path);
     }
 
     /**
@@ -131,9 +134,10 @@ class Handler {
      * @return File The new file
      * @throws Exception
      */
-    protected function duplicate($target = NULL){
+    public function duplicate($target = NULL){
         $origin = $this->getPath();
-        $target || $target = $this->getDi();
+        $target || $target = $this->getDirName() . "/" . $this->getFileName() . "-2." . $this->getExtension();
+        
         if (copy($origin, $target))
             return new static($target);
         else
@@ -144,7 +148,7 @@ class Handler {
      * Get the name of the directory where the file is located
      * @return string the dir name
      */
-    public static function getDirName(){
+    public function getDirName(){
         return dirname($this->_path);
     }
 
@@ -171,7 +175,7 @@ class Handler {
      * @throws Gapp\Utils\File\Exception if the file info resource could not be stablished.
      */
     public function getExtension(){
-        $this->_pathinfo || $this->_pathinfo = pathinfo($this->_path, PATHINFO_EXTENSION);
+        $this->_pathinfo || $this->_pathinfo = pathinfo($this->_path);
         return $this->_pathinfo['extension'];
     }
 

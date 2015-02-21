@@ -7,7 +7,7 @@ namespace Dauro\Utils\File;
 class HandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException NotFoundException
+     * @expectedException Dauro\Utils\File\NotFoundException
      */
     public function testOpenFail() {
         $file = new Handler('NotExistingFile.txt');
@@ -21,7 +21,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $faker = \Faker\Factory::create();
         $content = $faker->sentence();
 
-        $originalFile = new Handler('originalFile.txt');
+        $originalFile = Handler::create('./originalFile.txt');
         $originalFile->write($content);
         $newFile = $originalFile->duplicate();
         $this->assertEquals($content, $newFile->read());
@@ -35,26 +35,26 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     public function testMime(){
         $faker = \Faker\Factory::create();
         $content = $faker->sentence();
-        $originalFile = new Handler('originalFile.txt');
+        $originalFile = Handler::create('originalFile.txt');
         $originalFile->write($content);
-        $this->assertType('string', $originalFile->getMimeType());
+        $this->assertNotNull('string', $originalFile->getMimeType());
         $originalFile->delete();
     }
 
 
     /**
      * @covers ::delete
-     * @expectedException Exception
      */
     public function testDelete(){
         $faker = \Faker\Factory::create();
         $content = $faker->sentence();
 
-        $originalFile = new Handler('originalFile.txt');
+        $originalFile = Handler::create('originalFile.txt');
         $originalFile->write($content);
+        $this->assertTrue(file_exists('originalFile.txt'), 'Test file could not be created');
         $originalFile->delete();
 
-        $this->assertFalse(file_exists('originalFile.txt'));
+        $this->assertFalse(file_exists('originalFile.txt'), 'Test file could not be deleted');
 
     }
 

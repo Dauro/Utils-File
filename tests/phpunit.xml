@@ -14,5 +14,8 @@
         <testsuite name="utils-csv">
             <directory suffix=".php">Dauro/Utils/Csv</directory>
         </testsuite>
+        <testsuite name="utils-img">
+            <directory suffix=".php">Dauro/Utils/Img</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
